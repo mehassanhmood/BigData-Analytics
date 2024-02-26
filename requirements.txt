@@ -1,0 +1,5 @@
+fmpsdk
+dotenv
+pyspark
+pandas
+numpy
