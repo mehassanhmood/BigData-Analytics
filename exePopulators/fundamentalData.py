@@ -10,7 +10,7 @@ load_dotenv()
 fmp_key = os.getenv("fmp_key")
 
 try :
-    spark = SparkSession.builder.appName("fin-funData").config("port",4445).getOrCreate()
+    spark = SparkSession.builder.appName("fin-funData").config("spark.driver.bindAddress", "0.0.0.0").getOrCreate()
     print("Connection Established")
 except ConnectionError as e:
     print(e)
