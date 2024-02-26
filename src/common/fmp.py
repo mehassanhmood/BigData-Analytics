@@ -70,13 +70,13 @@ class FmpData:
                 & {'user', 'password', 'driver'}}
 
     def __generate_maria_jdbc(self) -> str | None:
-        if not self.mssql_conf:
+        if not self.maria_conf:
             return None
         return (f"jdbc:sqlserver://{self.maria_conf['host']}:{self.maria_conf['port']};"
                 f"databaseName={self.maria_conf['database']};encrypt=true;")
 
     def __generate_maria_property(self) -> dict:
-        if not self.mongo_conf:
+        if not self.maria_conf:
             return {}
         return {key: self.maria_conf[key] for key in self.maria_conf.keys()
                 & {'user', 'password', 'driver'}}
@@ -112,8 +112,10 @@ class FmpData:
         df = pd.DataFrame(api_data)
         df.date = pd.to_datetime(df.date)
 
-        cot = df[['date', 'noncomm_positions_long_all', 'noncomm_positions_short_all', 'comm_positions_long_all',
-                  'comm_positions_short_all']]
+        cot = df.loc[:, ['date', 'noncomm_positions_long_all',
+                         'noncomm_positions_short_all',
+                         'comm_positions_long_all',
+                         'comm_positions_short_all']]
         cot['comm_spread'] = cot['comm_positions_long_all'] - cot['comm_positions_short_all']
         cot['non_comm_spread'] = cot['noncomm_positions_long_all'] - cot['noncomm_positions_short_all']
 
