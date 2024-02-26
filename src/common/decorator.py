@@ -70,21 +70,20 @@ class ApiDecorator:
         @functools.wraps(func)
         def _call_wrapper(self, *args, **kwargs):
             response = func(self, *args, **kwargs)
-            if self.write_to_mysql:
-                spark = MySpark.initialize_spark(mongo_uri=self.mongo_uri)
-                sc = spark.sparkContext
-                df = ApiDecorator.__prepare_dataframe(spark, sc, response)
-                print(self.maria_jdbc)
-                print(self.table_name)
-                print(self.maria_property)
-                if not df.isEmpty():
-                    df.write.jdbc(
-                        url=self.maria_jdbc,
-                        table=self.table_name,
-                        mode="append",
-                        properties=self.maria_property
-                    )
-                spark.stop()
+            spark = MySpark.initialize_spark(mongo_uri=self.mongo_uri)
+            sc = spark.sparkContext
+            df = ApiDecorator.__prepare_dataframe(spark, sc, response)
+            print(self.maria_jdbc)
+            print(self.table_name)
+            print(self.maria_property)
+            if not df.isEmpty():
+                df.write.jdbc(
+                    url=self.maria_jdbc,
+                    table=self.table_name,
+                    mode="append",
+                    properties=self.maria_property
+                )
+            spark.stop()
             return response
 
         return _call_wrapper
