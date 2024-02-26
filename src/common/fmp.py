@@ -64,7 +64,7 @@ class FmpData:
                 f"databaseName={self.mssql_conf['database']};encrypt=true;")
 
     def __generate_mssql_property(self) -> dict:
-        if not self.mongo_conf:
+        if not self.mssql_conf:
             return {}
         return {key: self.mssql_conf[key] for key in self.mssql_conf.keys()
                 & {'user', 'password', 'driver'}}
@@ -120,3 +120,29 @@ class FmpData:
         cot['non_comm_spread'] = cot['noncomm_positions_long_all'] - cot['noncomm_positions_short_all']
 
         return cot
+
+    @ApiDecorator.write_to_maria_sp
+    def get_historical_full_price(self, symbol: str ='BTCUSD', from_date: str = '2020-01-01') -> pd.DataFrame:
+        """
+        get historical full price
+        :param symbol: str, crypto symbol
+        :param from_date: str
+        :return: pd dataframe
+        """
+        btc_df = fmp.historical_price_full(apikey=self.api_key, symbol=symbol, from_date=from_date)
+
+        return pd.DataFrame(btc_df)
+
+    @ApiDecorator.write_to_maria_sp
+    def get_income_stmt(self, symbol: str ='TSLA',
+                        limit: int = 80,
+                        period: str = 'annual') -> pd.DataFrame:
+        """
+        get income statement
+        :param symbol: str, stock symbol
+        :param limit: int
+        :param period: str, 'annual' | 'quarter'
+        :return: pd dataframe
+        """
+        api_data = fmp.income_statement(apikey=self.api_key, symbol=symbol, limit=limit, period=period)
+        return pd.DataFrame(api_data)

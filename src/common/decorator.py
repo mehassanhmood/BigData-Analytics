@@ -2,6 +2,7 @@ import functools
 import json
 
 import pandas as pd
+from pyspark.errors import PySparkException
 from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType
 
@@ -43,18 +44,20 @@ class ApiDecorator:
         @functools.wraps(func)
         def _call_wrapper(self, *args, **kwargs):
             response = func(self, *args, **kwargs)
-            if self.write_to_mysql:
-                spark = MySpark.initialize_spark(mongo_uri=self.mongo_uri)
-                sc = spark.sparkContext
-                df = ApiDecorator.__prepare_dataframe(spark, sc, response)
-                if not df.isEmpty():
+            spark = MySpark.initialize_spark(mongo_uri=self.mongo_uri)
+            sc = spark.sparkContext
+            df = ApiDecorator.__prepare_dataframe(spark, sc, response)
+            if not df.isEmpty():
+                try:
                     df.write.jdbc(
                         url=self.mssql_jdbc,
                         table=self.table_name,
                         mode="append",
                         properties=self.mssql_property
                     )
-                spark.stop()
+                except PySparkException as pe:
+                    print('error writing in pyspark', pe)
+            spark.stop()
             return response
 
         return _call_wrapper
@@ -77,12 +80,15 @@ class ApiDecorator:
             print(self.table_name)
             print(self.maria_property)
             if not df.isEmpty():
-                df.write.jdbc(
-                    url=self.maria_jdbc,
-                    table=self.table_name,
-                    mode="append",
-                    properties=self.maria_property
-                )
+                try:
+                    df.write.jdbc(
+                        url=self.maria_jdbc,
+                        table=self.table_name,
+                        mode="append",
+                        properties=self.maria_property
+                    )
+                except PySparkException as pe:
+                    print('error writing in pyspark', pe)
             spark.stop()
             return response
 
