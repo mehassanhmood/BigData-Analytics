@@ -73,7 +73,7 @@ class FmpData:
         if not self.maria_conf:
             return None
         return (f"jdbc:mysql://{self.maria_conf['host']}:{self.maria_conf['port']}/"
-                f"databaseName={self.maria_conf['database']}?permitMysqlScheme")
+                f"{self.maria_conf['database']}?permitMysqlScheme")
 
     def __generate_maria_property(self) -> dict:
         if not self.maria_conf:
