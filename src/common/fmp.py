@@ -89,7 +89,7 @@ class FmpData:
     def table_name(self, value):
         self.__table_name = value
 
-    # @ApiDecorator.write_to_mssql_sp
+    @ApiDecorator.write_to_mssql_sp
     @ApiDecorator.write_to_maria_sp
     def get_fmp_cot(self, commodity_name: str = '',
                     start_date: str = '',
@@ -122,6 +122,7 @@ class FmpData:
         return cot
 
     @ApiDecorator.write_to_maria_sp
+    @ApiDecorator.write_to_mssql_sp
     def get_historical_full_price(self, symbol: str ='BTCUSD', from_date: str = '2020-01-01') -> pd.DataFrame:
         """
         get historical full price
@@ -134,6 +135,7 @@ class FmpData:
         return pd.DataFrame(btc_df)
 
     @ApiDecorator.write_to_maria_sp
+    @ApiDecorator.write_to_mssql_sp
     def get_income_stmt(self, symbol: str ='TSLA',
                         limit: int = 80,
                         period: str = 'annual') -> pd.DataFrame:
