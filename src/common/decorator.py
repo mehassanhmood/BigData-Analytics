@@ -47,9 +47,6 @@ class ApiDecorator:
             spark = MySpark.initialize_spark(mongo_uri=self.mongo_uri)
             sc = spark.sparkContext
             df = ApiDecorator.__prepare_dataframe(spark, sc, response)
-            print(self.mssql_jdbc)
-            print(self.table_name)
-            print(self.mssql_property)
             if not df.isEmpty():
                 try:
                     df.write.jdbc(
