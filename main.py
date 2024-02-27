@@ -28,7 +28,16 @@ if __name__ == '__main__':
                             'port': config['maria_port'],
                             'database': config['maria_database'],
                             'driver': config['maria_driver'],
-                      },)
+                      },
+                      mssql_conf={
+                          'user': config['mssql_user'],
+                          'password': config['mssql_pwd'],
+                          'host': config['mssql_host'],
+                          'port': config['mssql_port'],
+                          'database': config['mssql_database'],
+                          'driver': config['mssql_driver'],
+                      },
+                      )
 
     # get data from sec and save them in tables (Tested OK)
     for item in sec:
