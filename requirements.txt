@@ -1,5 +1,5 @@
 fmpsdk
-dotenv
+python-dotenv
 pyspark
 pandas
 numpy
