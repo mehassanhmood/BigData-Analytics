@@ -61,7 +61,7 @@ class FmpData:
         if not self.mssql_conf:
             return None
         return (f"jdbc:sqlserver://{self.mssql_conf['host']}:{self.mssql_conf['port']};"
-                f"databaseName={self.mssql_conf['database']};encrypt=true;")
+                f"databaseName={self.mssql_conf['database']};encrypt=true;trustServerCertificate=true;")
 
     def __generate_mssql_property(self) -> dict:
         if not self.mssql_conf:
