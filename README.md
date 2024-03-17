@@ -22,8 +22,9 @@ The project is structured as follows:
 ## Usage
 To run the data extraction and pipeline:
 1. Install the required dependencies specified in `requirements.txt`.
-2. Run the main script to execute different components of the pipeline.
-3. Use Power BI to open and explore the visualizations and dashboards in the `visualizations/` directory.
+2. Change the configuration based on your env in `conf.yaml` file.
+3. Run the main script to execute different components of the pipeline.
+4. Use Power BI to open and explore the visualizations and dashboards in the `visualizations/` directory.
 
 
 
