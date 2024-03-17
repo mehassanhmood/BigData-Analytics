@@ -13,6 +13,8 @@ This repository contains the code and documentation for a data extraction and pi
 - Shifted the data from the local data warehouse to a cloud-based service, specifically Azure SQL.
 - Utilized Power BI for creating visualizations and dashboards to analyze the data.
 
+## Data Flow Diagram 
+![alt text](image.jpg)
 ## Project Structure
 The project is structured as follows:
 - `models/`: Contains pretrained models used for sentiment analysis.
