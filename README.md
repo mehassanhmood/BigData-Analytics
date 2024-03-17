@@ -13,6 +13,8 @@ This repository contains the code and documentation for a data extraction and pi
 - Shifted the data from the local data warehouse to a cloud-based service, specifically Azure SQL.
 - Utilized Power BI for creating visualizations and dashboards to analyze the data.
 
+## Data Flow Diagram 
+![alt text](image.jpg)
 ## Project Structure
 The project is structured as follows:
 - `models/`: Contains pretrained models used for sentiment analysis.
@@ -22,8 +24,9 @@ The project is structured as follows:
 ## Usage
 To run the data extraction and pipeline:
 1. Install the required dependencies specified in `requirements.txt`.
-2. Run the main script to execute different components of the pipeline.
-3. Use Power BI to open and explore the visualizations and dashboards in the `visualizations/` directory.
+2. Change the configuration based on your env in `conf.yaml` file.
+3. Run the main script to execute different components of the pipeline.
+4. Use Power BI to open and explore the visualizations and dashboards in the `visualizations/` directory.
 
 
 
