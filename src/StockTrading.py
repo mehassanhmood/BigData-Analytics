@@ -2,14 +2,25 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import requests
-import os
 from pyspark.sql import SparkSession
+import yaml
+
 
 
 def stock_trading():
-    url = "jdbc:postgresql://localhost:5432/postgres"
 
-    spark = SparkSession.builder.appName("cryptoData") \
+    with open("../conf.yaml", "r") as conf:
+        config = yaml.safe_load(conf)
+
+    host = config["postgres"]["host"]
+    port = config["postgres"]["port"]
+    password = config["postgres"]["password"]
+    database = config["postgres"]["database"]
+    user = config["postgres"]["user"]
+    driver = config["postgres"]["driver"]
+    url = f"jdbc:postgresql://{host}:{port}/{database}"
+
+    spark = SparkSession.builder.appName("stockTrading") \
     .config("spark.driver.bindAddress", "0.0.0.0") \
     .getOrCreate()
 
@@ -35,9 +46,9 @@ def stock_trading():
             .format("jdbc") \
             .option("url", url) \
             .option("dbtable", i) \
-            .option("user", "postgres") \
-            .option("password", "password") \
-            .option("driver","org.postgresql.Driver") \
+            .option("user", user) \
+            .option("password", password) \
+            .option("driver",driver) \
             .save()
         
 

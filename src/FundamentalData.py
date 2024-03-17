@@ -1,13 +1,26 @@
 import pandas as pd
 import numpy as np
 import requests
-import os
+import yaml
 from dotenv import load_dotenv
 import fmpsdk as fmp
 from pyspark.sql import SparkSession
 
 load_dotenv()
 fmp_key = os.getenv("fmp_key")
+
+with open("../conf.yaml", "r") as conf:
+    config = yaml.safe_load(conf)
+
+host = config["SqlExpressServer"]["host"]
+user = config["SqlExpressServer"]["user"]
+password = config["SqlExpressServer"]["password"]
+port = config["SqlExpressServer"]["port"]
+database = config["SqlExpressServer"]["database_fundamental"]
+driver = config["SqlExpressServer"]["driver"]
+
+url = f"jdbc:sqlserver://{host}:{port};database={database};trustServerCertificate=true;encrypt=true"
+
 def fundamental_data():
     try :
         spark = SparkSession.builder.appName("fin-funData").config("spark.driver.bindAddress", "0.0.0.0").getOrCreate()
@@ -41,10 +54,10 @@ def fundamental_data():
             df = spark.createDataFrame(data[i])
             df.write \
             .format("jdbc") \
-            .option("url","jdbc:sqlserver://ZAHRA\SQLEXPRESS:61254;database=new_stock_fundamentals;trustServerCertificate=true;encrypt=true") \
+            .option("url",url) \
             .option("dbtable",f"{i}") \
-            .option("user","mehassan") \
-            .option("password","password") \
+            .option("user",user) \
+            .option("password",password) \
             .save()
         print("Data Uploaded to the SQL server successfully.")
     except :

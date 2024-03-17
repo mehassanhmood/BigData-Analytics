@@ -1,22 +1,25 @@
 mongodb:
-  host: cluster0.wa0kflk.mongodb.net
+  host: xxxxxxxxxxxxxx
   user: xxxxx
   password: xxxxx
   token: xxxxx
-  database: finance_api
+  database: database.collection
 
 postgres:
   host: localhost
-  user:
-  password:
+  user: xxxxx
+  password: xxxxx
   port: 5432
   database:
   driver: org.postgresql.Driver
 
 SqlExpressServer:
-  host:
-  user:
-  password:
-  port:
-  database:
+  host: xxxx
+  user: xxxx
+  password: xxxxxx
+  port: xxxx
+  database: xxxxx
+  database_cot: xxxxx
+  database_crypto: xxxxx
+  database_fundamental: xxxxx
   driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
